@@ -61,3 +61,51 @@ disp(['TDOA value between M1 and M2: ' num2str(TDOA_value) ' seconds']);
 tau = tau_values(max_index);
 
 % The 'tau' variable now contains the estimated time delay
+
+-------------------------------------------------------------------------
+
+function TDoA = TDoAFunction(sig, refsig, fs)
+    % Check if the input signals have the same length
+    if length(sig) ~= length(refsig)
+        error('Input signals must have the same length.');
+    end
+    
+    % Compute the cross-correlation using the GCC-PHAT algorithm
+    xcorr_result = xcorr(sig, refsig);
+    
+    % Calculate the time delay (tau) as the index of the peak in the cross-correlation
+    [~, max_index] = max(abs(xcorr_result));
+    
+    % Convert the index to a time delay (tau) in seconds
+    tau = (max_index - 1) / fs; % Subtract 1 because MATLAB uses 1-based indexing
+    
+    % Convert tau to multiples of the sample interval corresponding to the default sampling frequency of 1 Hz
+    TDoA = tau * fs;
+end
+
+--------------------------------------------------------------------------
+
+function TDoA = TDoAFunction(x, y, fs)
+
+    % Compute the cross-power spectrum
+    Z12 = fft(x) .* conj(fft(y));
+    
+    % Compute the inverse FFT to obtain the cross-correlation function
+    R_Z1_Z2 = ifft(Z12);
+    
+    % Calculate the GCC-PHAT
+    phi_12 = 1 ./ abs(Z12);
+    
+    % Apply the GCC-PHAT weighting to the cross-correlation function
+    R_Z1_Z2_PHAT = R_Z1_Z2 .* phi_12;
+    
+    % Find the time delay (tau) that maximizes R_Z1_Z2_PHAT
+    [~, idx] = max(abs(R_Z1_Z2_PHAT));
+    tau_hat_samples = idx - 1;
+    
+    % Convert tau_hat_samples to seconds
+    tau_hat_seconds = tau_hat_samples / fs;
+    
+    % Return TDoA
+    TDoA = tau_hat_seconds;
+end

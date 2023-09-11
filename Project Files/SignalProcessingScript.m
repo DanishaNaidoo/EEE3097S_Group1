@@ -37,11 +37,30 @@ m2filtered = cat(2, t, spm2);
 m3filtered = cat(2, t, spm3);
 m4filtered = cat(2, t, spm4);
 
-%TDoA function call 3x
-delay(2) - delay(1)
-TDoA = TDoAFunction(m1filtered, m2filtered, samplef);
+td12 = delay(2) - delay(1);
+td13 = delay(3) - delay(1);
+td14 = delay(4) - delay(1);
 
-disp(['Estimated TDoA between M1 and M2: ' num2str(TDoA) ' seconds']);
+%-----------------------------------------------------------------------
+
+%TDoA function call 3x
+disp(['Expected result: ' num2str(td12) ' seconds']);
+TDoA = TDoAFunction(spm2, spm1, samplef);
+disp(['Estimated TDoA between M1 and M3: ' num2str(TDoA) ' seconds']);
+
+disp('---------------------------------------------------------------');
+
+disp(['Expected result: ' num2str(td13) ' seconds']);
+TDoA = TDoAFunction(spm3, spm1, samplef);
+disp(['Estimated TDoA between M1 and M3: ' num2str(TDoA) ' seconds']);
+
+disp('---------------------------------------------------------------');
+
+disp(['Expected result: ' num2str(td14) ' seconds']);
+TDoA = TDoAFunction(spm4, spm1, samplef);
+disp(['Estimated TDoA between M1 and M4: ' num2str(TDoA) ' seconds']);
+
+%-----------------------------------------------------------------------
 
 %localization function call
 % td12 = delay(2) - delay(1);
@@ -51,6 +70,4 @@ disp(['Estimated TDoA between M1 and M2: ' num2str(TDoA) ' seconds']);
 % [x, y] = LocalizationFunction(td12, td13, td14);
 % x
 % y
-
-% 
 

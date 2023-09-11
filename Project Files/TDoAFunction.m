@@ -1,30 +1,36 @@
-function TDoA = TDoAFunction(m1filtered, m2filtered, samplef)
-%samplef = 5000;
-    % Frequency domain equations
-    M1 = fft(m1filtered);
-    M2 = fft(m2filtered);
-
+function TDoA = TDoAFunction(x, y, samplef)
     % Cross-correlation
-    Z_M1_M2 = M1 .* conj(M2);
-    Z2_M1_M2 = int(Z_M1_M2, Z_M1_M2, -inf, inf);
+    R_M1_M2 = ifft(fft(x) .* conj(fft(y)));
 
-    % Absolute
-    %Zabs_M1_M2 = Z_M1_M2 ./ abs(Z_M1_M2);
-    R_M1_M2 = ifft(Z2_M1_M2);
+    % Ensure R_M1_M2 is a 1D vector
+    R_M1_M2 = R_M1_M2(:);  
+
+    % Find the maximum peak in the cross-correlation result
+    [max_peak_value, peak_index] = max(abs(R_M1_M2));
+
+    % Visualize the cross-correlation result and the maximum peak
+    figure;
+    subplot(2, 1, 1);
     plot(R_M1_M2);
+    title('Cross-Correlation Result');
 
-    % Indices of local maxima
-    [~, peak_indices] = findpeaks(abs(R_M1_M2));
+    subplot(2, 1, 2);
+    plot(abs(R_M1_M2));
+    hold on;
+    plot(peak_index, max_peak_value, 'ro');  % Mark the maximum peak in red
+    title('Maximum Peak');
 
-    % Delay index of the peak
-    peak_delay_index = peak_indices(1);
+    % Delay index of the maximum peak
+    peak_delay_index = peak_index;
 
     % Corresponding time delay (tau) in seconds
     tau = (peak_delay_index / samplef);
 
-    % Calculate TDoA based on speed_of_sound
+    % Return TDoA
     TDoA = tau;
 end
+
+%-------------------------------------------------------------------------
 
 % Function call
 % m1filtered = Signal (ref)
@@ -35,3 +41,9 @@ end
 
 % disp(['Estimated TDoA between M1 and M2: ' num2str(TDoA) ' seconds']);
 
+%-------------------------------------------------------------------------
+
+% function TDoA = TDoAFunction(x, y, samplef)
+% tau = gccphat(x,y,samplef);
+% TDoA = tau;
+% end
