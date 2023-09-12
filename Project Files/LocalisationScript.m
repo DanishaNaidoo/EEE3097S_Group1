@@ -10,9 +10,9 @@ syms x y;
 
 %TDoA Values
 %Give the TDoA between a mic and the reference mic
-TDoA12 = 0.0008;
-TDoA13 = 0.0010;
-TDoA14 = 0.0020;
+TDoA12 = -0.00032876;
+TDoA13 = -0.0014496;
+TDoA14 = -0.00079804;
 
 %Microphone coordinates
 micPos1 = [0, 0];
@@ -35,41 +35,56 @@ fimplicit(h12, [0, 0.8, 0, 0.5]);  % Adjust the plot limits as needed
 hold on;
 fimplicit(h13, [0, 0.8, 0, 0.5]);
 fimplicit(h14, [0, 0.8, 0, 0.5]);
+
+%Define mic positions
+scatter(micPos1(1), micPos1(2), 'g', 'filled');
+scatter(micPos2(1), micPos2(2), 'r', 'filled');
+scatter(micPos3(1), micPos3(2), 'r', 'filled');
+scatter(micPos4(1), micPos4(2), 'r', 'filled');
 title('Hyperbolas for Sound Localization');
 xlabel('X Coordinate');
 ylabel('Y Coordinate');
-legend('h12', 'h13', 'h14');
+legend('h12', 'h13', 'h14', "Reference Mic", "Mics");
 grid on;
+hold off;
+
 
 % Solve the system of equations symbolically
 solutions1213 = solve([h12, h13], [x, y]);
 solutions1214 = solve([h12, h14], [x, y]);
 solutions1314 = solve([h13, h14], [x, y]);
 solutionsAll = solve([h12, h13, h14], [x, y]);
+
 % Evaluate the solutions (x, y coordinates)
-x1213 = double(solutions1213.x);
-y1213 = double(solutions1213.y);
+x1213 = round(double(solutions1213.x), 1);
+y1213 = round(double(solutions1213.y), 1);
+c_1213 = [x1213, y1213];
 disp("Intersection of h12 and h13: ")
-disp(x1213)
-disp(y1213)
+disp(c_1213);
 
-x1214 = double(solutions1214.x);
-y1214 = double(solutions1214.y);
-disp("Intersection of h12 and h14: ")
-disp(x1214)
-disp(y1214)
+x1214 = round(double(solutions1214.x), 1);
+y1214 = round(double(solutions1214.y), 1);
+c_1214 = [x1214, y1214];
+disp("Intersection of h12 and h14: ");
+disp(c_1214);
 
-x1314 = double(solutions1314.x);
-y1314 = double(solutions1314.y);
-disp("Intersection of h13 and h14: ")
-disp(x1314)
-disp(y1314)
+x1314 = round(double(solutions1314.x), 1);
+y1314 = round(double(solutions1314.y), 1);
+c_1314 = [x1314, y1314];
+disp("Intersection of h13 and h14: ");
+disp(c_1314);
 
-xAll = double(solutionsAll.x);
-yAll = double(solutionsAll.y);
-disp("Intersection of h12 and h13 and h14: ")
-disp(xAll)
-disp(yAll)
+
+%Display the location of the source
+if ((all(c_1213==c_1214) && (all(c_1213==c_1314))))
+    disp('The estimated location of the source is: ');
+    disp(c_1213);
+else
+    disp('Possible locations for the source: ');
+    disp(c_1213);
+    disp(c_1214);
+    disp(c_1314);
+end
 
 %Function to find the distances given the TDoA
 function result = getDistance(TDoA)
