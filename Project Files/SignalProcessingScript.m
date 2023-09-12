@@ -41,32 +41,32 @@ td14 = delay(4) - delay(1);
 
 %-----------------------------------------------------------------------
 
-%TDoA function call 3x
+% TDoA function calls
 disp(['Expected result: ' num2str(td12) ' seconds']);
-%TDoA = TDoAFunction(spm2, spm1, samplef);
-disp(['Estimated TDoA between M1 and M3: ' num2str(TDoA) ' seconds']);
+TDoA12 = TDoAFunction(spm2, spm1, samplef);
+disp(['Estimated TDoA between M1 and M3: ' num2str(TDoA12) ' seconds']);
 
 disp('---------------------------------------------------------------');
 
 disp(['Expected result: ' num2str(td13) ' seconds']);
-%TDoA = TDoAFunction(spm3, spm1, samplef);
-disp(['Estimated TDoA between M1 and M3: ' num2str(TDoA) ' seconds']);
+TDoA13 = TDoAFunction(spm3, spm1, samplef);
+disp(['Estimated TDoA between M1 and M3: ' num2str(TDoA13) ' seconds']);
 
 disp('---------------------------------------------------------------');
 
 disp(['Expected result: ' num2str(td14) ' seconds']);
-%TDoA = TDoAFunction(spm4, spm1, samplef);
-disp(['Estimated TDoA between M1 and M4: ' num2str(TDoA) ' seconds']);
+TDoA14 = TDoAFunction(spm4, spm1, samplef);
+disp(['Estimated TDoA between M1 and M4: ' num2str(TDoA14) ' seconds']);
 
 %-----------------------------------------------------------------------
 
 %localization function call
 syms x y;
- td12 = delay(2) - delay(1);
- td13 = delay(3) - delay(1);
- td14 = delay(4) - delay(1);
+ % td12 = delay(2) - delay(1);
+ % td13 = delay(3) - delay(1);
+ % td14 = delay(4) - delay(1);
  src
- LocalizationFunction(td12, td13, td14);
+ LocalizationFunction(TDoA12, TDoA13, TDoA14);
  %x
  %y
 
