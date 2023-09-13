@@ -49,9 +49,11 @@ c_1314 = [x1314, y1314];
 
 
 %Display the location of the source
-if ((all(c_1213==c_1214) && (all(c_1213==c_1314))))
+if ((all(c_1213==c_1214) & (all(c_1213==c_1314))))
     disp(['Estimated location of the sound source: [' num2str(c_1213(1)) ', ' num2str(c_1213(2)) ']']);
     %disp(c_1213);
+    median_x = median(c_1213);
+    median_y = median(c_1213);
 else
     % disp('Possible locations for the source: ');
     % disp(c_1213);

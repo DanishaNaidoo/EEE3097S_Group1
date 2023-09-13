@@ -4,7 +4,7 @@
 
 % Define variables:
 
-src = [0.21, 0.43]; %location of sound source
+src = [0.78, 0.47]; %location of sound source
 
 fs = 2000; %frequency of source
 
@@ -39,8 +39,8 @@ fprintf('\n')
 disp(['Actual location of the sound source: [' num2str(src(1)) ', ' num2str(src(2)) ']' ]);
 
 %running the simulation, outputs assigned to out
-out = sim('SimPart1.slx');
-%out = sim('SimPart1a.slx'); %for older MATLAB versions
+%out = sim('SimPart1.slx');
+out = sim('SimPart1a.slx'); %for older MATLAB versions
 
 %signal processing algorithm
 sim_time = 2;
@@ -75,39 +75,40 @@ spm4 = filter(B, A, out.m4out);
 % plot(t, spm1);
 % title('Filtered signal from mic 1');
  
+% ideal tdoa values for modular testing of the localization algorithm
+td12 = delay(2) - delay(1);
+td13 = delay(3) - delay(1);
+td14 = delay(4) - delay(1);
+
 %-----------------------------------------------------------------------
 
-% TDoA function calls
-%disp(['Expected result: ' num2str(td12) ' seconds']);
-TDoA12 = TDoAFunction(spm2, spm1, samplef);
+% %TDoA function calls
+% disp(['Expected result: ' num2str(td12) ' seconds']);
+%  TDoA12 = TDoAFunction(spm2, spm1, samplef);
 % disp(['Estimated TDoA between M1 and M3: ' num2str(TDoA12) ' seconds']);
-% 
-% disp('---------------------------------------------------------------');
-% 
+% % 
+% % disp('---------------------------------------------------------------');
+% % 
 % disp(['Expected result: ' num2str(td13) ' seconds']);
-TDoA13 = TDoAFunction(spm3, spm1, samplef);
+%  TDoA13 = TDoAFunction(spm3, spm1, samplef);
 % disp(['Estimated TDoA between M1 and M3: ' num2str(TDoA13) ' seconds']);
 % 
 % disp('---------------------------------------------------------------');
 % 
 % disp(['Expected result: ' num2str(td14) ' seconds']);
-TDoA14 = TDoAFunction(spm4, spm1, samplef);
+%  TDoA14 = TDoAFunction(spm4, spm1, samplef);
 % disp(['Estimated TDoA between M1 and M4: ' num2str(TDoA14) ' seconds']);
 
 %-----------------------------------------------------------------------
 
-% ideal tdoa values for modular testing of the localization algorithm
-% td12 = delay(2) - delay(1);
-% td13 = delay(3) - delay(1);
-% td14 = delay(4) - delay(1);
-
 %localization function call
-LocalizationFunction(TDoA12, TDoA13, TDoA14);
+% LocalizationFunction(TDoA12, TDoA13, TDoA14);
+LocalizationFunction(td12, td13, td14);
 tEnd = toc(tStart);
 
 %report info
-fprintf('\n')
-disp(['Source signal frequency: ' num2str(fs) ' Hz']);
-disp(['Sampling frequency: ' num2str(samplef) ' Hz']);
-display(['SNR at source: ' num2str(SNR)]);
-disp(['Time taken to find location: ' num2str(tEnd) ' s']);
+% fprintf('\n')
+% disp(['Source signal frequency: ' num2str(fs) ' Hz']);
+ disp(['Sampling frequency: ' num2str(samplef) ' Hz']);
+ display(['SNR at source: ' num2str(SNR)]);
+ disp(['Time taken to find location: ' num2str(tEnd) ' s']);
