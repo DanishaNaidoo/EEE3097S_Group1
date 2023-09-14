@@ -4,7 +4,7 @@
 
 % Define variables:
 
-src = [0.78, 0.47]; %location of sound source
+src = [0.3, 0.2]; %location of sound source
 
 fs = 2000; %frequency of source
 
@@ -13,10 +13,10 @@ samplef = (2.5 * fs);  % sampling frequency relative to fs
 amp = 3000; %amplitude of source (volume)
 sigp = amp^2/2; %signal power
 
-SNR = 1000;
+SNR = sigp;
+SNRdb = 20*log(SNR);
 
 np = sigp/SNR; %noise power
-np = 0;
 
 %positions of mics
 m1 = [0, 0];
@@ -39,8 +39,8 @@ fprintf('\n')
 disp(['Actual location of the sound source: [' num2str(src(1)) ', ' num2str(src(2)) ']' ]);
 
 %running the simulation, outputs assigned to out
-%out = sim('SimPart1.slx');
-out = sim('SimPart1a.slx'); %for older MATLAB versions
+%out = sim('SimPart1.slx');%for version R2023b
+out = sim('SimPart1a.slx'); %for version R2023a
 
 %signal processing algorithm
 sim_time = 2;
@@ -84,31 +84,31 @@ td14 = delay(4) - delay(1);
 
 % %TDoA function calls
 % disp(['Expected result: ' num2str(td12) ' seconds']);
-%  TDoA12 = TDoAFunction(spm2, spm1, samplef);
+TDoA12 = TDoAFunction(spm2, spm1, samplef);
 % disp(['Estimated TDoA between M1 and M3: ' num2str(TDoA12) ' seconds']);
 % % 
 % % disp('---------------------------------------------------------------');
 % % 
 % disp(['Expected result: ' num2str(td13) ' seconds']);
-%  TDoA13 = TDoAFunction(spm3, spm1, samplef);
+TDoA13 = TDoAFunction(spm3, spm1, samplef);
 % disp(['Estimated TDoA between M1 and M3: ' num2str(TDoA13) ' seconds']);
 % 
 % disp('---------------------------------------------------------------');
 % 
 % disp(['Expected result: ' num2str(td14) ' seconds']);
-%  TDoA14 = TDoAFunction(spm4, spm1, samplef);
+TDoA14 = TDoAFunction(spm4, spm1, samplef);
 % disp(['Estimated TDoA between M1 and M4: ' num2str(TDoA14) ' seconds']);
 
 %-----------------------------------------------------------------------
 
 %localization function call
-% LocalizationFunction(TDoA12, TDoA13, TDoA14);
-LocalizationFunction(td12, td13, td14);
+LocalizationFunction(TDoA12, TDoA13, TDoA14);
+% LocalizationFunction(td12, td13, td14);
 tEnd = toc(tStart);
 
 %report info
-% fprintf('\n')
-% disp(['Source signal frequency: ' num2str(fs) ' Hz']);
+ fprintf('\n')
+ disp(['Source signal frequency: ' num2str(fs) ' Hz']);
  disp(['Sampling frequency: ' num2str(samplef) ' Hz']);
- display(['SNR at source: ' num2str(SNR)]);
+ disp(['SNR at source: ' num2str(SNR) ' (' num2str(SNRdb) ' dB)']);
  disp(['Time taken to find location: ' num2str(tEnd) ' s']);
