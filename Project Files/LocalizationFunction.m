@@ -1,4 +1,4 @@
-function [] = LocalizationFunction(TDoA12,TDoA13, TDoA14)
+function [] = LocalizationFunction(TDoA12,TDoA13, TDoA14, src)
 %Localization Algorithm - Danisha Naidoo (NDXDAN019)
 %Find the location of a sound source by finding the intersections of
 %multiple hyperbolas.
@@ -76,15 +76,16 @@ hold on;
 fimplicit(h13, [0, 0.8, 0, 0.5]);
 fimplicit(h14, [0, 0.8, 0, 0.5]);
 %Define mic positions
+scatter(median_x, median_y, "m");
+scatter(src(1), src(2), "g");
 scatter(micPos1(1), micPos1(2), 'g', 'filled');
 scatter(micPos2(1), micPos2(2), 'r', 'filled');
 scatter(micPos3(1), micPos3(2), 'r', 'filled');
 scatter(micPos4(1), micPos4(2), 'r', 'filled');
-scatter(median_x, median_y, "r");
 title('Hyperbolas for Sound Localization');
 xlabel('X Coordinate');
 ylabel('Y Coordinate');
-legend('Hyperbola 12', 'Hyperbola 13', 'Hyperbola 14');
+legend('Hyperbola 12', 'Hyperbola 13', 'Hyperbola 14', 'Estimated Location', 'Actual Location');
 legend('Location','eastoutside');
 grid on;
 hold off;

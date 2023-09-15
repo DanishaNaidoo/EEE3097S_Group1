@@ -6,7 +6,7 @@
 
 src = [0.1, 0.1]; %location of sound source
 
-fs = 2000; %frequency of source
+fs = 1000; %frequency of source
 
 samplef = (2.5 * fs);  % sampling frequency relative to fs
 
@@ -103,7 +103,7 @@ TDoA14 = TDoAFunction(spm4, spm1, samplef);
 %-----------------------------------------------------------------------
 
 %localization function call
-LocalizationFunction(TDoA12, TDoA13, TDoA14);
+LocalizationFunction(TDoA12, TDoA13, TDoA14, src);
 tEnd = toc(tStart);
 
 %report info
