@@ -103,7 +103,6 @@ TDoA14 = TDoAFunction(spm4, spm1, samplef);
 
 %localization function call
 LocalizationFunction(TDoA12, TDoA13, TDoA14);
-% LocalizationFunction(td12, td13, td14);
 tEnd = toc(tStart);
 
 %report info
