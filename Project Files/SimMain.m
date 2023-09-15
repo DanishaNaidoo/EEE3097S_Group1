@@ -4,7 +4,7 @@
 
 % Define variables:
 
-src = [0.3, 0.2]; %location of sound source
+src = [0.1, 0.1]; %location of sound source
 
 fs = 2000; %frequency of source
 
@@ -17,6 +17,7 @@ SNR = sigp;
 SNRdb = 20*log(SNR);
 
 np = sigp/SNR; %noise power
+np = 0;
 
 %positions of mics
 m1 = [0, 0];
@@ -39,8 +40,8 @@ fprintf('\n')
 disp(['Actual location of the sound source: [' num2str(src(1)) ', ' num2str(src(2)) ']' ]);
 
 %running the simulation, outputs assigned to out
-out = sim('SimPart1.slx');%for version R2023b
-%out = sim('SimPart1a.slx'); %for version R2023a
+%out = sim('SimPart1.slx');%for version R2023b
+out = sim('SimPart1a.slx'); %for version R2023a
 
 %signal processing algorithm
 sim_time = 2;
