@@ -2,23 +2,6 @@
 % October 2023 EEE3097S
 % Authors: Group 1 (Danisha Naidoo, Megan Sorour, Qailah Bhamjee)
 
-% Define variables:
-
-src = [0.1, 0.1]; %location of sound source
-
-fs = 1000; %frequency of source
-
-samplef = (2.5 * fs);  % sampling frequency relative to fs
-
-amp = 3000; %amplitude of source (volume)
-sigp = amp^2/2; %signal power
-
-SNR = sigp;
-SNRdb = 20*log(SNR);
-
-np = sigp/SNR; %noise power
-np = 0;
-
 %positions of mics
 m1 = [0, 0];
 m2 = [0, 0.5];
@@ -26,31 +9,27 @@ m3 = [0.8, 0.5];
 m4 = [0.8, 0];
 m =  [m1;m2;m3;m4];
 
-%calculating derived variables before simulation runs
-mic_src_xy = abs(m - src);  % diff in xy coords on each mic and src
-mic_src_d = sqrt(sum(mic_src_xy .^2, 2)); % distance between each mic and src
-speed = 343.21; %speed of sound at T = 20C
-delay = mic_src_d ./ speed;
+fs = 1000;
 
 fprintf('\n')
 disp("Simulation report:");
 disp('------------------------------------------------------------');
 disp('Locations [x, y] in meters');
 fprintf('\n')
-disp(['Actual location of the sound source: [' num2str(src(1)) ', ' num2str(src(2)) ']' ]);
+%disp(['Actual location of the sound source: [' num2str(src(1)) ', ' num2str(src(2)) ']' ]);
 
-%running the simulation, outputs assigned to out
-out = sim('SimPart1.slx');%for version R2023b
-%out = sim('SimPart1a.slx'); %for version R2023a
+%read wav files and split channels
+[y1, Fs] = audioread('./Recordings/stereo.wav');
 
-%get wav files and read
-[y, Fs] = audioread('./Recordings/stereo.wav');
+m1 = y1(:, 1);
+m2 = y1(:, 2);
+
+[y2, Fs] = audioread('./Recordings/stereo2.wav');
+
+m3 = y2(:, 1);
+m4 = y2(:, 2);
 
 %signal processing algorithm
-sim_time = 2;
-dt = 1/samplef;
-t = 0:dt:sim_time ;
-t = t';
 
 tStart = tic;
 
@@ -64,10 +43,10 @@ Wn = [nlow_f, nhigh_f];
 % % Design the Butterworth bandpass filter
 [B, A] = butter(N, Wn , 'bandpass');
 
-spm1 = filter(B, A, out.m1out);
-spm2 = filter(B, A, out.m2out);
-spm3 = filter(B, A, out.m3out);
-spm4 = filter(B, A, out.m4out);
+spm1 = filter(B, A, m1);
+spm2 = filter(B, A, m2);
+spm3 = filter(B, A, m3);
+spm4 = filter(B, A, m4);
 
 % Signal processing display results
 % tiledlayout(2,1)
@@ -78,11 +57,6 @@ spm4 = filter(B, A, out.m4out);
 % nexttile
 % plot(t, spm1);
 % title('Filtered signal from mic 1');
- 
-% ideal tdoa values for modular testing of the localization algorithm
-td12 = delay(2) - delay(1);
-td13 = delay(3) - delay(1);
-td14 = delay(4) - delay(1);
 
 %-----------------------------------------------------------------------
 
@@ -111,7 +85,4 @@ tEnd = toc(tStart);
 
 %report info
  fprintf('\n')
- disp(['Source signal frequency: ' num2str(fs) ' Hz']);
- disp(['Sampling frequency: ' num2str(samplef) ' Hz']);
- disp(['SNR at source: ' num2str(SNR) ' (' num2str(SNRdb) ' dB)']);
  disp(['Time taken to find location: ' num2str(tEnd) ' s']);
