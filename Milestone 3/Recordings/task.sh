@@ -22,3 +22,9 @@ expect {
 "
 
 echo "File transfer completed!"
+
+echo "Starting MATLAB..."
+
+/Applications/MATLAB_R2023b.app/bin/matlab -r "run('/Users/megan/Desktop/ece design:eee3097s/EEE3097S_Group1/Milestone 3/SimMain.m'); exit; "
+
+echo "Done with MATLAB!"
