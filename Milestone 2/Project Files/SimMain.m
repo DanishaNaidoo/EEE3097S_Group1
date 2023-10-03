@@ -40,8 +40,8 @@ fprintf('\n')
 disp(['Actual location of the sound source: [' num2str(src(1)) ', ' num2str(src(2)) ']' ]);
 
 %running the simulation, outputs assigned to out
-%out = sim('SimPart1.slx');%for version R2023b
-out = sim('SimPart1a.slx'); %for version R2023a
+out = sim('SimPart1.slx');%for version R2023b
+%out = sim('SimPart1a.slx'); %for version R2023a
 
 %signal processing algorithm
 sim_time = 2;
