@@ -1,27 +1,20 @@
 #!/bin/bash
-#this is pi 2
-start_time_file="/tmp/start_time"
+# This is pi 2
+rm -f /tmp/slave_ready
+echo "pi 2 waiting for the signal from pi 1..."
 
-# Wait until the start time is received from the master
-while [ ! -f $start_time_file ]; do
+# Wait for a signal from the master Pi to start recording
+while [ ! -f /tmp/start_recording ]; do
     sleep 1
 done
 
-# Read the start time from the file
-start_time=$(cat $start_time_file)
+# Signal the master Pi that the slave is ready
+touch /tmp/slave_ready
 
-# Calculate the duration for which recording should occur (e.g., 10 seconds)
-duration=10
+echo "pi 2 recording start"
 
-# Calculate the end time based on start time and duration
-end_time=$(echo "$start_time + $duration" | bc)
-
-# Start recording if the current time is within the desired start and end time range
-current_time=$(date +%s.%3N)
-if (( $(echo "$current_time >= $start_time && $current_time < $end_time" | bc -l) )); then
-    #arecord -D plughw:0 -c2 -r 48000 -f S32_LE -t wav -V stereo -v stereo2.wav
-    echo "recording 2!"
-fi
+# Start recording when the signal is received
+arecord -D plughw:0 -c2 -r 48000 -d 10 -f S32_LE -t wav -V stereo -v stereo2.wav
 
 # Create a "completion" file to signal that recording is finished
 touch /tmp/recording_2_complete

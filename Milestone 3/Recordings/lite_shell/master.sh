@@ -1,24 +1,20 @@
 #!/bin/bash
-#this is pi 1
-slave_ip = "192.168.43.89" #pi 2
-# Calculate the start time with millisecond precision
-start_time=$(date +%s.%3N)
+# This is pi 1
+rm -f /tmp/master_start_recording
+echo "pi 1 waiting for pi 2 to be ready..."
 
-# Calculate the duration for which recording should occur (e.g., 10 seconds)
-duration=10
+# Wait for a signal from the slave Pi that it's ready
+while [ ! -f /tmp/slave_ready ]; do
+    sleep 1
+done
 
-# Calculate the end time based on start time and duration
-end_time=$(echo "$start_time + $duration" | bc)
+# Signal the slave Pi to start recording
+touch /tmp/start_recording
 
-# SSH into the slave Raspberry Pi and send the start time
-ssh pi@slave_ip "echo $start_time > /tmp/start_time"
+echo "pi 1 recording start"
 
-# Start recording if the current time is within the desired start and end time range
-current_time=$(date +%s.%3N)
-if (( $(echo "$current_time >= $start_time && $current_time < $end_time" | bc -l) )); then
-    #arecord -D plughw:0 -c2 -r 48000 -f S32_LE -t wav -V stereo -v stereo1.wav
-    echo "2 recording!"
-fi
+# Start recording on the master Pi
+arecord -D plughw:0 -c2 -r 48000 -d 10 -f S32_LE -t wav -V stereo -v stereo1.wav
 
 # Create a "completion" file to signal that recording is finished
 touch /tmp/recording_1_complete
