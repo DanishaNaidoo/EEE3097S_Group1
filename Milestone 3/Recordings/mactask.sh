@@ -4,11 +4,11 @@ echo "Starting!"
 
 # Define variables
 remote_user1="raspberrypi1"
-remote_host1="192.168.43.59"
+remote_host1="192.168.43.41"
 remote_file1="stereo1.wav"
 
 remote_user2="raspberrypi2"
-remote_host2="192.168.43.19"
+remote_host2="192.168.43.89"
 remote_file2="stereo2.wav"
 
 local_dir="/Users/megan/Desktop/ece design:eee3097s/EEE3097S_Group1/Milestone 3/Recordings"

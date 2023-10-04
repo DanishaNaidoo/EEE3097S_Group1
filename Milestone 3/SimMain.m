@@ -9,7 +9,8 @@ m3 = [0.8, 0.5];
 m4 = [0.8, 0];
 m =  [m1;m2;m3;m4];
 
-fs = 1000;
+fs = 500;
+samplef = 48000;
 
 fprintf('\n')
 disp("Simulation report:");
@@ -19,15 +20,15 @@ fprintf('\n')
 %disp(['Actual location of the sound source: [' num2str(src(1)) ', ' num2str(src(2)) ']' ]);
 
 %read wav files and split channels
-[y1, Fs] = audioread('./Recordings/stereo.wav');
+[y1, Fs] = audioread('./Recordings/stereo1.wav');
 
 m1 = y1(:, 1);
 m2 = y1(:, 2);
 
-[y2, Fs] = audioread('./Recordings/stereo2.wav');
-
-m3 = y2(:, 1);
-m4 = y2(:, 2);
+% [y2, Fs] = audioread('./Recordings/stereo2.wav');
+% 
+% m3 = y2(:, 1);
+% m4 = y2(:, 2);
 
 %signal processing algorithm
 
@@ -45,42 +46,42 @@ Wn = [nlow_f, nhigh_f];
 
 spm1 = filter(B, A, m1);
 spm2 = filter(B, A, m2);
-spm3 = filter(B, A, m3);
-spm4 = filter(B, A, m4);
+% spm3 = filter(B, A, m3);
+% spm4 = filter(B, A, m4);
 
 % Signal processing display results
-% tiledlayout(2,1)
-% nexttile
-% plot(t, out.m1out)
-% title("Original signal from mic 1")
-% 
-% nexttile
-% plot(t, spm1);
-% title('Filtered signal from mic 1');
+tiledlayout(2,1)
+nexttile
+plot(m1)
+title("Original signal from mic 1")
+
+nexttile
+plot(spm1);
+title('Filtered signal from mic 1');
 
 %-----------------------------------------------------------------------
 
 % %TDoA function calls
 % disp(['Expected result: ' num2str(td12) ' seconds']);
 TDoA12 = TDoAFunction(spm2, spm1, samplef);
-% disp(['Estimated TDoA between M1 and M3: ' num2str(TDoA12) ' seconds']);
+disp(['Estimated TDoA between M1 and M3: ' num2str(TDoA12) ' seconds']);
 % % 
 % % disp('---------------------------------------------------------------');
 % % 
 % disp(['Expected result: ' num2str(td13) ' seconds']);
-TDoA13 = TDoAFunction(spm3, spm1, samplef);
+% TDoA13 = TDoAFunction(spm3, spm1, samplef);
 % disp(['Estimated TDoA between M1 and M3: ' num2str(TDoA13) ' seconds']);
 % 
 % disp('---------------------------------------------------------------');
 % 
 % disp(['Expected result: ' num2str(td14) ' seconds']);
-TDoA14 = TDoAFunction(spm4, spm1, samplef);
+% TDoA14 = TDoAFunction(spm4, spm1, samplef);
 % disp(['Estimated TDoA between M1 and M4: ' num2str(TDoA14) ' seconds']);
 
 %-----------------------------------------------------------------------
 
 %localization function call
-LocalizationFunction(TDoA12, TDoA13, TDoA14, src);
+% LocalizationFunction(TDoA12, TDoA13, TDoA14, src);
 tEnd = toc(tStart);
 
 %report info
