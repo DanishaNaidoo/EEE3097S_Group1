@@ -1,0 +1,21 @@
+Last login: Wed Oct  4 23:16:28 on ttys000
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+(base) Megans-MacBook-Air-2:lite_shell megan$ scp master.sh raspberrypi1@192.168.0.110:.
+raspberrypi1@192.168.0.110's password: 
+master.sh                                     100%  430    51.2KB/s   00:00    
+(base) Megans-MacBook-Air-2:lite_shell megan$ scp slave.sh raspberrypi2@192.168.0.111
+(base) Megans-MacBook-Air-2:lite_shell megan$ scp slave.sh raspberrypi2@192.168.0.111:.
+raspberrypi2@192.168.0.111's password: 
+slave.sh                                      100%  469    32.0KB/s   00:00    
+(base) Megans-MacBook-Air-2:lite_shell megan$ 
+
+
+
+
+
+
+
+

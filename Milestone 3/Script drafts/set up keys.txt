@@ -1,0 +1,10 @@
+if needed: ssh-keygen -t rsa -b 4096 -C "megansorour@gmail.com"
+
+ssh-copy-id raspberrypi1@192.168.43.41
+ssh-copy-id raspberrypi2@192.168.43.89
+
+
+
+
+
+

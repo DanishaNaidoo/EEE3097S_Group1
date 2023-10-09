@@ -14,8 +14,6 @@ remote_file2="stereo2.wav"
 local_dir="/Users/megan/Desktop/ece design:eee3097s/EEE3097S_Group1/Milestone 3/Recordings"
 remote_password="group1"
 
-# Use expect to automate the password entry for first pi
-
 scp $remote_user1@$remote_host1:$remote_file1 \"$local_dir\"
 
 echo "File transfer for first pi completed!"
