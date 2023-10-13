@@ -1,26 +1,25 @@
 #!/bin/bash
-#this is pi 2
-start_time_file="/tmp/start_time"
+# This is pi 2
+# slave.sh
+echo "pi 2 login"
 
-# Wait until the start time is received from the master
-while [ ! -f $start_time_file ]; do
-    sleep 1
+#sleep 0.01
+while [ ! -e /tmp/trigger ]; do
+  sleep 0.0001
 done
 
-# Read the start time from the file
-start_time=$(cat $start_time_file)
+pulseaudio -k
 
-# Calculate the duration for which recording should occur (e.g., 10 seconds)
-duration=10
+# no timestamp, ssh method
+arecord -D plughw:0 -c2 -d 10 -r 48000 -f S32_LE -t wav -V stereo -v stereo2.wav
 
-# Calculate the end time based on start time and duration
-end_time=$(echo "$start_time + $duration" | bc)
+# timestamp recording method
+#timestamp=$(date +'%Y-%m-%d_%H-%M-%S.%3N')
+#arecord -d 10 -f S32_LE -t wav -V stereo -v "audio2-$timestamp.wav"
 
-# Start recording if the current time is within the desired start and end time range
-current_time=$(date +%s.%3N)
-if (( $(echo "$current_time >= $start_time && $current_time < $end_time" | bc -l) )); then
-    arecord -D plughw:0 -c2 -r 48000 -f S32_LE -t wav -V stereo -v stereo2.wav
-fi
+#arecord -c 2 -r 44100 -f S32_LE -t wav -d 10 -v stereo2.wav
 
-# Create a "completion" file to signal that recording is finished
-touch /tmp/recording_2_complete
+sleep 0.1
+
+echo "pi 2 recording done"
+rm -f /tmp/trigger

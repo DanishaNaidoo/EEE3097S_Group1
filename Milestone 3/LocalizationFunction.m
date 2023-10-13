@@ -32,6 +32,16 @@ solutions1213 = solve([h12, h13], [x, y]);
 solutions1214 = solve([h12, h14], [x, y]);
 solutions1314 = solve([h13, h14], [x, y]);
 
+% Check if the solutions are empty
+
+if isempty(solutions1213.x) || isempty(solutions1213.y) || isempty(solutions1214.x) || isempty(solutions1214.y) || isempty(solutions1314.x) || isempty(solutions1314.y)
+
+    disp('No locations found.');
+
+    return;
+
+end
+
 % Evaluate the solutions (x, y coordinates)
 %Intersection between hyperbola 12 and 13
 x1213 = round(double(solutions1213.x), 2);
@@ -52,8 +62,9 @@ c_1314 = [x1314, y1314];
 if ((all(c_1213==c_1214) & (all(c_1213==c_1314))))
     disp(['Estimated location of the sound source: [' num2str(c_1213(1)) ', ' num2str(c_1213(2)) ']']);
     %disp(c_1213);
-    median_x = median(c_1213);
-    median_y = median(c_1213);
+    
+    median_x = median(c_1213(1))
+    median_y = median(c_1213(2))
 else
     % disp('Possible locations for the source: ');
     % disp(c_1213);
@@ -71,6 +82,7 @@ else
 end
 
 % Plot the hyperbolas
+gcf = figure('visible', 'off');
 fimplicit(h12, [0, 0.8, 0, 0.5]);  % Adjust the plot limits as needed
 hold on;
 fimplicit(h13, [0, 0.8, 0, 0.5]);
@@ -89,5 +101,8 @@ legend('Hyperbola 12', 'Hyperbola 13', 'Hyperbola 14', 'Estimated Location', 'Ac
 legend('Location','eastoutside');
 grid on;
 hold off;
+saveas(gcf, 'hyperbola_plot.png');
+close(gcf);
+
 
 end

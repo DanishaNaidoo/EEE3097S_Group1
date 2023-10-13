@@ -1,23 +1,26 @@
 #!/bin/bash
-#this is pi 1
-slave_ip = "192.168.43.19" #pi 2
-# Calculate the start time with millisecond precision
-start_time=$(date +%s.%3N)
+# This is pi 1
+# master.sh
 
-# Calculate the duration for which recording should occur (e.g., 10 seconds)
-duration=10
+echo "pi 1 login"
+remote_user2="raspberrypi2"
+remote_host2="192.168.43.89"
+trigger_path="/tmp/trigger"
 
-# Calculate the end time based on start time and duration
-end_time=$(echo "$start_time + $duration" | bc)
+ssh "$remote_user2@$remote_host2" "touch $trigger_path"
 
-# SSH into the slave Raspberry Pi and send the start time
-ssh pi@slave_ip "echo $start_time > /tmp/start_time"
+while [ ! -e /tmp/trigger ]; do
+  sleep 0.0001
+done
 
-# Start recording if the current time is within the desired start and end time range
-current_time=$(date +%s.%3N)
-if (( $(echo "$current_time >= $start_time && $current_time < $end_time" | bc -l) )); then
-    arecord -D plughw:0 -c2 -r 48000 -f S32_LE -t wav -V stereo -v stereo1.wav
-fi
+# timestamp recording method
+#timestamp=$(date +'%Y-%m-%d_%H-%M-%S.%3N')
+#arecord -c 2 -r 48000 -f S32_LE -t wav -d 10 -v stereo1.wav
 
-# Create a "completion" file to signal that recording is finished
-touch /tmp/recording_1_complete
+# no timestamp, ssh method
+arecord -D plughw:0 -c2 -d 10 -r 48000 -f S32_LE -t wav -V stereo -v stereo1.wav
+
+sleep 0.1
+
+echo "pi 1 recording done"
+rm -f /tmp/trigger

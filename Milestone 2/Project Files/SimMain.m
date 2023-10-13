@@ -4,7 +4,7 @@
 
 % Define variables:
 
-src = [0.3, 0.1]; %location of sound source
+src = [0.5, 0.2]; %location of sound source
 
 fs = 1000; %frequency of source
 
