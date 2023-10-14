@@ -49,7 +49,7 @@ echo "Scripts executed on Raspberry Pi devices."
 
 echo "sshing files"
 
-scp "$remote_user1@$remote_host1:$remote_file1" "$local_dir" 
+scp "$remote_user1@$remote_host1:$remote_file1" "$local_dir"  &
 
 scp "$remote_user2@$remote_host2:$remote_file2" "$local_dir"
 

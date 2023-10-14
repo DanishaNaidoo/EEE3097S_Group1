@@ -9,7 +9,10 @@ m3 = [0.8, 0.5];
 m4 = [0.8, 0];
 m =  [m1;m2;m3;m4];
 
-src = [0.1, 0.4];
+src = [0.4, 0.3];
+TDoA12 = -0.00017447916666666667;
+TDoA13 = 0.00584375;
+TDoA14 = -0.00017447916666666667;
 
 fs = 1000;
 samplef = 48000;
@@ -30,7 +33,7 @@ disp("Simulation report:");
 disp('------------------------------------------------------------');
 disp('Locations [x, y] in meters');
 fprintf('\n')
-%disp(['Actual location of the sound source: [' num2str(src(1)) ', ' num2str(src(2)) ']' ]);
+disp(['Actual location of the sound source: [' num2str(src(1)) ', ' num2str(src(2)) ']' ]);
 
 %read wav files and split channels
 [y1, Fs] = audioread('./Recordings/stereo1.wav');
@@ -88,23 +91,27 @@ title('Signal from mic 3');
 
 %-----------------------------------------------------------------------
 
+
 % %TDoA function calls
 disp(['Expected result: ' num2str(td12) ' seconds']);
-TDoA12 = TDoAFunction(spm2, spm1, Fs);
+%TDoA12 = TDoAFunction(spm2, spm1, Fs);
 disp(['Estimated TDoA between M1 and M2: ' num2str(TDoA12) ' seconds']);
 % % 
 % % disp('---------------------------------------------------------------');
 % % 
 disp(['Expected result: ' num2str(td13) ' seconds']);
-TDoA13 = TDoAFunction(spm3, spm1, Fs);
+%TDoA13 = TDoAFunction(spm3, spm1, Fs);
 disp(['Estimated TDoA between M1 and M3: ' num2str(TDoA13) ' seconds']);
 % 
 % disp('---------------------------------------------------------------');
 % 
 disp(['Expected result: ' num2str(td14) ' seconds']);
-TDoA14 = TDoAFunction(spm4, spm1, Fs);
+%TDoA14 = TDoAFunction(spm4, spm1, Fs);
 disp(['Estimated TDoA between M1 and M4: ' num2str(TDoA14) ' seconds']);
 fprintf('\n')
+
+
+
 %-----------------------------------------------------------------------
 
 %localization function call

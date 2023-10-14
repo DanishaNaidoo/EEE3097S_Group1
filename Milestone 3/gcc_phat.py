@@ -47,11 +47,11 @@ m4out = y2[:, 1]  # Right channel
 m4out = m4out[start:end]
 
 td12 = gcc_phat(m2out, m1out, Fs)
-print("td 12 = " + str(td12))
+print("TDoA12 = " + str(td12) + ";")
 td13 = gcc_phat(m3out, m1out, Fs)
-print("td 13 = " + str(td13))
+print("TDoA13 = " + str(td13) +";")
 td14 = gcc_phat(m2out, m1out, Fs)
-print("td 14 = " + str(td14))
+print("TDoA14 = " + str(td14) + ";")
 
 
 
