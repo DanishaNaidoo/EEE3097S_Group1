@@ -38,6 +38,7 @@ disp(['Actual location of the sound source: [' num2str(src(1)) ', ' num2str(src(
 cutoff = int32(0.5*10^5);
 
 m1out = y1(:, 1); %left channel pi 1
+m = m1out;
 m1out = m1out(cutoff:end);
 
 m2out = y1(:, 2); %right channel pi 1
@@ -58,29 +59,33 @@ samplef= Fs;
 tStart = tic;
 
 N = 1; %order of the Butterworth filter
-low_freq = fs-50;
-high_freq = fs+50;
+low_freq = fs-100;
+high_freq = fs+100;
 nlow_f = low_freq/samplef/2;
 nhigh_f = high_freq/samplef/2;
 Wn = [nlow_f, nhigh_f];
 
 % % Design the Butterworth bandpass filter
-%[B, A] = butter(N, Wn , 'bandpass');
+[B, A] = butter(N, Wn , 'bandpass');
 
-% spm1 = filter(B, A, m1out);
-% spm2 = filter(B, A, m2out);
-% spm3 = filter(B, A, m3out);
-% spm4 = filter(B, A, m4out);
+spm1 = filter(B, A, m1out);
+spm2 = filter(B, A, m2out);
+spm3 = filter(B, A, m3out);
+spm4 = filter(B, A, m4out);
 
-spm1 = m1out;
-spm2 = m2out;
-spm3 = m3out;
-spm4 = m4out;
+% spm1 = m1out;
+% spm2 = m2out;
+% spm3 = m3out;
+% spm4 = m4out;
 
 % Signal processing display results
 subplot(2, 1, 1);
-plot(m1out)
+plot(m)
 title("Original signal from mic 1")
+
+% subplot(2,1,2);
+% plot(spm1);
+% title("Processed signal from mic 1")
 
 subplot(2,1,2);
 plot(spm3);
