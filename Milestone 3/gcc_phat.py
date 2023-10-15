@@ -29,11 +29,16 @@ def gcc_phat(sig, refsig, fs=1, max_tau=0.1, interp=16):
     tau = shift / float(interp * fs)
     return tau
 
-start = int(0.5*10**5) 
 
+start = int(0.5*10**5)
 
+# read in wave files from pis
 Fs, y1 = wavfile.read('./Recordings/stereo1.wav')
+
+# separate into 2 channels
 m1out = y1[:, 0]  # Left channel
+
+# trim to exclude mic pop
 end = len(m1out)
 m1out = m1out[start:end]
 
@@ -46,12 +51,20 @@ m3out = m3out[start:end]
 m4out = y2[:, 1]  # Right channel
 m4out = m4out[start:end]
 
+# plug wave files into TDoA function
 td12 = gcc_phat(m2out, m1out, Fs)
-print("TDoA12 = " + str(td12) + ";")
-td13 = gcc_phat(m3out, m1out, Fs)
-print("TDoA13 = " + str(td13) +";")
-td14 = gcc_phat(m2out, m1out, Fs)
-print("TDoA14 = " + str(td14) + ";")
+#print("TDoA12 = " + str(td12) + ";")
+print(str(td12))
 
+td13 = gcc_phat(m3out, m1out, Fs)
+#print("TDoA13 = " + str(td13) +";")
+print(str(td13))
+
+td14 = gcc_phat(m2out, m1out, Fs)
+#print("TDoA14 = " + str(td14) + ";")
+print(str(td14))
+
+with open("tdoa_values.txt", "w") as file:
+    file.write(f"{td12}\n{td13}\n{td14}")
 
 

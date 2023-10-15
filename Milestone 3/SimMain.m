@@ -10,9 +10,6 @@ m4 = [0.8, 0];
 m =  [m1;m2;m3;m4];
 
 src = [0.4, 0.3];
-TDoA12 = -0.00017447916666666667;
-TDoA13 = 0.00584375;
-TDoA14 = -0.00017447916666666667;
 
 fs = 1000;
 samplef = 48000;
@@ -88,6 +85,13 @@ title("Original signal from mic 1")
 subplot(2,1,2);
 plot(spm3);
 title('Signal from mic 3');
+
+% read TDoA values from Python script output
+fileID = fopen('tdoa_values.txt', 'r');
+TDoA12 = fscanf(fileID, '%f', 1);
+TDoA13 = fscanf(fileID, '%f', 1);
+TDoA14 = fscanf(fileID, '%f', 1);
+fclose(fileID);
 
 %-----------------------------------------------------------------------
 
