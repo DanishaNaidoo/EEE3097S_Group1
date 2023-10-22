@@ -75,6 +75,8 @@ spm4 = filter(B, A, out.m4out);
 % nexttile
 % plot(t, spm1);
 % title('Filtered signal from mic 1');
+
+snr_change = snr(spm1 - out.m1out)
  
 % ideal tdoa values for modular testing of the localization algorithm
 td12 = delay(2) - delay(1);

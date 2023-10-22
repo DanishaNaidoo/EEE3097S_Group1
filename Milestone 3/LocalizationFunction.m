@@ -60,7 +60,8 @@ if ~isempty(non_empty_arrays)
     location = mean(cell2mat(non_empty_arrays), 1)
     
     if (location(1) < 0) || (location(1) > 0.5) || (location(2) < 0) || (location(2) > 0.8)
-        disp('No locations found within the defined grid.');
+        %disp('No locations found within the defined grid.');
+        location = [-1, -1];
     end 
 % No intersections found and hence no locations found    
 else

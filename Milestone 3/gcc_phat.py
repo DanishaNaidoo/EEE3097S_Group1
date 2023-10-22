@@ -65,6 +65,7 @@ td14 = gcc_phat(m2out, m1out, Fs)
 print(str(td14))
 
 with open("tdoa_values.txt", "w") as file:
+    file. truncate(0)
     file.write(f"{td12}\n{td13}\n{td14}")
 
 

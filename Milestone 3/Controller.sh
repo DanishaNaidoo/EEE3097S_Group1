@@ -52,6 +52,9 @@ scp "$remote_user2@$remote_host2:$remote_file2" "$local_dir"
 
 echo "Files transferred"
 
-python3 gcc_phat.py
+python -c "import scipy"
+export PYTHON='/Users/megan/opt/anaconda3/bin/python'
+
+$PYTHON python3 gcc_phat.py
 
 echo "TDOA values calculated."

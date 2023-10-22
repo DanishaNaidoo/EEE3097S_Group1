@@ -3,13 +3,14 @@
 % Authors: Group 1 (Danisha Naidoo, Megan Sorour, Qailah Bhamjee)
 
 %positions of mics
+setenv('PYTHON', '/Users/megan/opt/anaconda3/bin/python')
 m1 = [0, 0];
 m2 = [0, 0.5];
 m3 = [0.8, 0.5];
 m4 = [0.8, 0];
 m =  [m1;m2;m3;m4];
 
-src = [0.4, 0.3];
+src = [0.6, 0.4];
 
 fs = 1000;
 samplef = 48000;
@@ -83,13 +84,13 @@ subplot(2, 1, 1);
 plot(m)
 title("Original signal from mic 1")
 
-% subplot(2,1,2);
-% plot(spm1);
-% title("Processed signal from mic 1")
-
 subplot(2,1,2);
-plot(spm3);
-title('Signal from mic 3');
+plot(spm1);
+title("Processed signal from mic 1")
+
+% subplot(2,1,2);
+% plot(spm3);
+% title('Signal from mic 3');
 
 % read TDoA values from Python script output
 fileID = fopen('tdoa_values.txt', 'r');
